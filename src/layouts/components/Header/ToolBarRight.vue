@@ -8,7 +8,7 @@
       <Message id="message" />
       <Fullscreen id="fullscreen" />
     </div>
-    <span class="username">{{ username }}</span>
+    <span class="username">{{ username }}@{{ tenant }}</span>
     <Avatar />
   </div>
 </template>
@@ -25,6 +25,7 @@ import Fullscreen from "./components/Fullscreen.vue";
 import Avatar from "./components/Avatar.vue";
 
 const userStore = useUserStore();
+const tenant = computed(() => userStore.userInfo.tenant);
 const username = computed(() => userStore.userInfo.name);
 </script>
 

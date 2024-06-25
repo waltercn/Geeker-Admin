@@ -1,5 +1,5 @@
 import { ResPage, User } from "@/api/interface/index";
-import { PORT1 } from "@/api/config/servicePort";
+import { PORT1, PORT3 } from "@/api/config/servicePort";
 import http from "@/api";
 
 /**
@@ -68,4 +68,9 @@ export const getUserDepartment = () => {
 // 获取用户角色字典
 export const getUserRole = () => {
   return http.get<User.ResRole[]>(PORT1 + `/user/role`);
+};
+
+// 获取当前用户信息
+export const getCurrentUserInfo = () => {
+  return http.get<User.ResUserInfo>(PORT3 + `/users/me`);
 };

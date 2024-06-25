@@ -35,12 +35,20 @@ export namespace Login {
   export interface ReqLoginForm {
     username: string;
     password: string;
+    captchaCode?: string;
+    captchaId?: string;
   }
   export interface ResLogin {
     access_token: string;
   }
   export interface ResAuthButtons {
     [key: string]: string[];
+  }
+
+  export interface CaptchaImage {
+    captchaId: string;
+    captchaEnabled?: boolean;
+    img: string;
   }
 }
 
@@ -86,5 +94,12 @@ export namespace User {
     id: string;
     name: string;
     children?: ResDepartment[];
+  }
+  export interface ResUserInfo {
+    user_id: string;
+    tenant: string;
+    user_name: string;
+    roles?: string;
+    permissions?: string;
   }
 }
