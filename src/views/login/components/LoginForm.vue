@@ -18,7 +18,7 @@
         </template>
       </el-input>
     </el-form-item>
-    <el-form-item v-if="captchaEnabled" prop="code" :rules="loginRules">
+    <el-form-item v-if="captchaEnabled" prop="code">
       <div class="rowBC" style="width: 100%">
         <span class="svg-container">
           <svg-icon icon-class="validCode" class="el-input__icon input-icon" />
