@@ -8,7 +8,7 @@
       <div class="login-form">
         <div class="login-logo">
           <img class="login-icon" src="@/assets/images/logo.svg" alt="" />
-          <h2 class="logo-text">S1 Admin</h2>
+          <h2 class="logo-text">S1</h2>
         </div>
         <LoginForm />
       </div>

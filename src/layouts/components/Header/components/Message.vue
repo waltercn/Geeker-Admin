@@ -2,60 +2,46 @@
   <div class="message">
     <el-popover placement="bottom" :width="310" trigger="click">
       <template #reference>
-        <el-badge :value="5" class="item">
+        <el-badge :value="`${total}`" class="item">
           <i :class="'iconfont icon-xiaoxi'" class="toolBar-icon"></i>
         </el-badge>
       </template>
       <el-tabs v-model="activeName">
-        <el-tab-pane label="通知(5)" name="first">
+        <el-tab-pane :label="`通知(${notificationsTotal})`" name="first">
           <div class="message-list">
-            <div class="message-item">
-              <img src="@/assets/images/msg01.png" alt="" class="message-icon" />
+            <div v-for="item in notifications" :key="item.id" class="message-item">
+              <img :src="iconsrc(item.category)" alt="" class="message-icon" />
               <div class="message-content">
-                <span class="message-title">一键三连 Geeker-Admin 🧡</span>
-                <span class="message-date">一分钟前</span>
-              </div>
-            </div>
-            <div class="message-item">
-              <img src="@/assets/images/msg02.png" alt="" class="message-icon" />
-              <div class="message-content">
-                <span class="message-title">一键三连 Geeker-Admin 💙</span>
-                <span class="message-date">一小时前</span>
-              </div>
-            </div>
-            <div class="message-item">
-              <img src="@/assets/images/msg03.png" alt="" class="message-icon" />
-              <div class="message-content">
-                <span class="message-title">一键三连 Geeker-Admin 💚</span>
-                <span class="message-date">半天前</span>
-              </div>
-            </div>
-            <div class="message-item">
-              <img src="@/assets/images/msg04.png" alt="" class="message-icon" />
-              <div class="message-content">
-                <span class="message-title">一键三连 Geeker-Admin 💜</span>
-                <span class="message-date">一星期前</span>
-              </div>
-            </div>
-            <div class="message-item">
-              <img src="@/assets/images/msg05.png" alt="" class="message-icon" />
-              <div class="message-content">
-                <span class="message-title">一键三连 Geeker-Admin 💛</span>
-                <span class="message-date">一个月前</span>
+                <span class="message-title">{{ item.title }}</span>
+                <span class="message-date">{{ item.period }} day(s) ago</span>
               </div>
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="消息(0)" name="second">
-          <div class="message-empty">
-            <img src="@/assets/images/notData.png" alt="notData" />
-            <div>暂无消息</div>
+        <el-tab-pane :label="`消息(${messagesTotal})`" name="second">
+          <div class="message-list">
+            <!-- <img src="@/assets/images/notData.png" alt="notData" />
+            <div>暂无消息</div> -->
+            <div v-for="item in messages" :key="item.id" class="message-item">
+              <img :src="iconsrc(item.category)" alt="" class="message-icon" />
+              <div class="message-content">
+                <span class="message-title">{{ item.title }}</span>
+                <span class="message-date">{{ item.content }}</span>
+              </div>
+            </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="待办(0)" name="third">
-          <div class="message-empty">
-            <img src="@/assets/images/notData.png" alt="notData" />
-            <div>暂无待办</div>
+        <el-tab-pane :label="`待办(${tasksTotal})`" name="third">
+          <div class="message-list">
+            <!-- <img src="@/assets/images/notData.png" alt="notData" />
+            <div>暂无待办</div> -->
+            <div v-for="item in tasks" :key="item.id" class="message-item">
+              <img :src="iconsrc(item.category)" alt="" class="message-icon" />
+              <div class="message-content">
+                <span class="message-title">{{ item.subject }}</span>
+                <span class="message-date">{{ item.details }}</span>
+              </div>
+            </div>
           </div>
         </el-tab-pane>
       </el-tabs>
@@ -64,8 +50,49 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed, onBeforeMount, onUnmounted } from "vue";
+import { getMessageList } from "@/api/modules/user";
+import { User } from "@/api/interface";
 const activeName = ref("first");
+const notifications = ref<User.ResNotification[]>([]);
+const messages = ref<User.ResMessage[]>([]);
+const tasks = ref<User.ResTask[]>([]);
+// Get Messages
+const getMessages = async () => {
+  const { data } = await getMessageList();
+  notifications.value = data.notifications;
+  messages.value = data.messages;
+  tasks.value = data.tasks;
+};
+const iconsrc = function (category) {
+  return `/src/assets/images/msg${category}.png`;
+};
+const notificationsTotal = computed(() => {
+  return notifications.value.length;
+});
+const messagesTotal = computed(() => {
+  return messages.value.length;
+});
+const tasksTotal = computed(() => {
+  return tasks.value.length;
+});
+const total = computed(() => {
+  return notifications.value.length + messages.value.length + tasks.value.length;
+});
+//定时刷新Messages
+let timeInterId: NodeJS.Timer;
+const reloadMessage = () => {
+  timeInterId = setInterval(() => {
+    getMessages();
+  }, 60000);
+};
+onUnmounted(() => {
+  clearInterval(timeInterId);
+});
+onBeforeMount(() => {
+  getMessages();
+  reloadMessage();
+});
 </script>
 
 <style scoped lang="scss">

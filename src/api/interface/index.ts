@@ -102,4 +102,27 @@ export namespace User {
     roles?: string;
     permissions?: string;
   }
+  export interface ResNotification {
+    id: string;
+    title: string;
+    category?: string;
+    period?: number;
+  }
+  export interface ResMessage {
+    id: string;
+    title: string;
+    category?: string;
+    content?: string;
+  }
+  export interface ResTask {
+    id: string;
+    subject: string;
+    category?: string;
+    details?: string;
+  }
+  export interface ResMessageList {
+    notifications: ResNotification[];
+    messages: ResMessage[];
+    tasks: ResTask[];
+  }
 }

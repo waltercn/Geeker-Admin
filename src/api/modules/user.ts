@@ -74,3 +74,8 @@ export const getUserRole = () => {
 export const getCurrentUserInfo = () => {
   return http.get<User.ResUserInfo>(PORT3 + `/users/me`);
 };
+
+// 获取当前用户Notification/Message/Task
+export const getMessageList = () => {
+  return http.get<User.ResMessageList>(PORT1 + `/message/list`, {}, { loading: false });
+};
