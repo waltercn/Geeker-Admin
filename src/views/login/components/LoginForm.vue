@@ -76,7 +76,8 @@ const loginForm = reactive<Login.ReqLoginForm>({
   captchaCode: "",
   captchaId: ""
 });
-//获取code
+
+//获取 Captcha
 const getCode = () => {
   getCaptchaApi().then(({ data }) => {
     if (data.captchaEnabled) {
@@ -89,6 +90,7 @@ const getCode = () => {
     }
   });
 };
+
 // Get CurrentUserInfo
 const getUserInfo = async () => {
   const { data } = await getCurrentUserInfo();
@@ -114,10 +116,8 @@ const login = (formEl: FormInstance | undefined) => {
       // const md5Password = md5(loginForm.password);
       const { data } = await loginApi({ ...loginForm, password: plainPassword });
       userStore.setToken(data.access_token);
-      // Get User Info
-      // userStore.setUserInfo({
-      //   name: "S1"
-      // });
+
+      // 1.1 Get User Info
       await getUserInfo();
 
       // 2.添加动态路由
@@ -157,13 +157,15 @@ onMounted(() => {
     }
   };
 });
+
 //定时刷新验证码
-let timeInterId;
+let timeInterId: string | number | NodeJS.Timer | undefined;
 const reloadCode = () => {
   timeInterId = setInterval(() => {
     getCode();
   }, 60000);
 };
+
 onUnmounted(() => {
   clearInterval(timeInterId);
 });

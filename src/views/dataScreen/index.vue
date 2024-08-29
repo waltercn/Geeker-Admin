@@ -3,17 +3,17 @@
     <div class="dataScreen-content" ref="dataScreenRef">
       <div class="dataScreen-header">
         <div class="header-lf">
-          <span class="header-screening" @click="router.push(HOME_URL)">首页</span>
+          <span class="header-screening" @click="router.push(HOME_URL)">HOME</span>
         </div>
         <div class="header-ct">
           <div class="header-ct-title">
-            <span>智慧旅游可视化大数据展示平台</span>
+            <span>智慧旅游可视化大数据展示平台 R1</span>
             <div class="header-ct-warning">平台高峰预警信息（2条）</div>
           </div>
         </div>
         <div class="header-ri">
-          <span class="header-download">统计报告</span>
-          <span class="header-time">当前时间：{{ time }}</span>
+          <span class="header-download">Report</span>
+          <span class="header-time">Now is：{{ time }}</span>
         </div>
       </div>
       <div class="dataScreen-main">
