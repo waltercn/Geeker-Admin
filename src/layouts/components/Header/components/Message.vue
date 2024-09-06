@@ -80,14 +80,14 @@ const total = computed(() => {
   return notifications.value.length + messages.value.length + tasks.value.length;
 });
 //定时刷新Messages
-let timeInterId: NodeJS.Timer;
+let timeInterId: NodeJS.Timeout | null = null;
 const reloadMessage = () => {
   timeInterId = setInterval(() => {
     getMessages();
   }, 60000);
 };
 onUnmounted(() => {
-  clearInterval(timeInterId);
+  clearInterval(timeInterId as unknown as number);
 });
 onBeforeMount(() => {
   getMessages();

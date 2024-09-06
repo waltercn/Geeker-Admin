@@ -82,14 +82,13 @@ const addDomain = () => {
   });
 };
 
-const submitForm = (formEl: FormInstance | undefined) => {
+const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  formEl.validate(valid => {
+  await formEl.validate((valid, fields) => {
     if (valid) {
       console.log("submit!");
     } else {
-      console.log("error submit!");
-      return false;
+      console.log("error submit!", fields);
     }
   });
 };
@@ -101,5 +100,5 @@ const resetForm = (formEl: FormInstance | undefined) => {
 </script>
 
 <style scoped lang="scss">
-@import "./index.scss";
+@import "./index";
 </style>

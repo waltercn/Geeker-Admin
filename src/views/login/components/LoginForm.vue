@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, onBeforeMount, onUnmounted } from "vue";
+import { ref, reactive, onMounted, onBeforeMount, onBeforeUnmount, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { HOME_URL } from "@/config";
 import { getTimeState } from "@/utils";
@@ -129,11 +129,17 @@ const login = (formEl: FormInstance | undefined) => {
 
       // 4.跳转到首页
       router.push(HOME_URL);
+      // ElNotification({
+      //   title: getTimeState(),
+      //   message: "欢迎登录 Geeker-Admin",
+      //   type: "success",
+      //   duration: 3000
+      // });
       ElNotification({
         title: getTimeState(),
         message: "Welcome to S1",
         type: "success",
-        duration: 3000
+        duration: 8000
       });
     } finally {
       loading.value = false;
@@ -150,7 +156,6 @@ const resetForm = (formEl: FormInstance | undefined) => {
 onMounted(() => {
   // 监听 enter 事件（调用登录）
   document.onkeydown = (e: KeyboardEvent) => {
-    e = (window.event as KeyboardEvent) || e;
     if (e.code === "Enter" || e.code === "enter" || e.code === "NumpadEnter") {
       if (loading.value) return;
       login(loginFormRef.value);
@@ -174,8 +179,12 @@ onBeforeMount(() => {
   getCode();
   reloadCode();
 });
+
+onBeforeUnmount(() => {
+  document.onkeydown = null;
+});
 </script>
 
 <style scoped lang="scss">
-@import "../index.scss";
+@import "../index";
 </style>
