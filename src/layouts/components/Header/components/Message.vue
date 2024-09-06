@@ -10,10 +10,10 @@
         <el-tab-pane :label="`通知(${notificationsTotal})`" name="first">
           <div class="message-list">
             <div v-for="item in notifications" :key="item.id" class="message-item">
-              <img :src="iconsrc(item.category)" alt="" class="message-icon" />
+              <img :src="iconsrc(item.icon)" alt="" class="message-icon" />
               <div class="message-content">
-                <span class="message-title">{{ item.title }}</span>
-                <span class="message-date">{{ item.period }} day(s) ago</span>
+                <span class="message-title">{{ item.subject }}</span>
+                <span class="message-date">{{ item.duration }} day(s) ago</span>
               </div>
             </div>
           </div>
@@ -23,10 +23,10 @@
             <!-- <img src="@/assets/images/notData.png" alt="notData" />
             <div>暂无消息</div> -->
             <div v-for="item in messages" :key="item.id" class="message-item">
-              <img :src="iconsrc(item.category)" alt="" class="message-icon" />
+              <img :src="iconsrc(item.icon)" alt="" class="message-icon" />
               <div class="message-content">
-                <span class="message-title">{{ item.title }}</span>
-                <span class="message-date">{{ item.content }}</span>
+                <span class="message-title">{{ item.subject }}</span>
+                <span class="message-date">{{ item.details }}</span>
               </div>
             </div>
           </div>
@@ -36,7 +36,7 @@
             <!-- <img src="@/assets/images/notData.png" alt="notData" />
             <div>暂无待办</div> -->
             <div v-for="item in tasks" :key="item.id" class="message-item">
-              <img :src="iconsrc(item.category)" alt="" class="message-icon" />
+              <img :src="iconsrc(item.icon)" alt="" class="message-icon" />
               <div class="message-content">
                 <span class="message-title">{{ item.subject }}</span>
                 <span class="message-date">{{ item.details }}</span>
@@ -64,8 +64,8 @@ const getMessages = async () => {
   messages.value = data.messages;
   tasks.value = data.tasks;
 };
-const iconsrc = function (category) {
-  return `/src/assets/images/msg${category}.png`;
+const iconsrc = function (icon) {
+  return `/src/assets/images/${icon}`;
 };
 const notificationsTotal = computed(() => {
   return notifications.value.length;

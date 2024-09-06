@@ -1,5 +1,5 @@
 import { ResPage, User } from "@/api/interface/index";
-import { PORT1, PORT3 } from "@/api/config/servicePort";
+import { PORT1, PORT3, PORT4 } from "@/api/config/servicePort";
 import http from "@/api";
 
 /**
@@ -77,5 +77,5 @@ export const getCurrentUserInfo = () => {
 
 // 获取当前用户Notification/Message/Task
 export const getMessageList = () => {
-  return http.get<User.ResMessageList>(PORT1 + `/message/list`, {}, { loading: false });
+  return http.get<User.ResMessageList>(PORT4 + `/message/list`, {}, { loading: false });
 };

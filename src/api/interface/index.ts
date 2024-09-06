@@ -104,21 +104,28 @@ export namespace User {
   }
   export interface ResNotification {
     id: string;
-    title: string;
+    title?: string;
     category?: string;
-    period?: number;
+    duration?: number;
+    subject?: string;
+    details?: string;
+    icon?: string;
   }
   export interface ResMessage {
     id: string;
-    title: string;
+    title?: string;
     category?: string;
     content?: string;
+    subject?: string;
+    details?: string;
+    icon?: string;
   }
   export interface ResTask {
     id: string;
     subject: string;
     category?: string;
     details?: string;
+    icon?: string;
   }
   export interface ResMessageList {
     notifications: ResNotification[];
